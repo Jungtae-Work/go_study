@@ -1,10 +1,12 @@
 package auth
 
 import (
+	"fmt"
 	"time"
 
+	"middleware/session"
+
 	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/session"
 	"github.com/gofiber/storage/redis/v3"
 )
 
@@ -29,10 +31,15 @@ func Set(app *fiber.App) {
 			return err
 		}
 
-		loginTime := ssn.Get("login")
+		loginTime := ssn.Get("LoginID")
 		if loginTime == nil {
 			return c.SendStatus(fiber.StatusUnauthorized)
 		}
+
+		fmt.Printf("[DEBUG] LoginID   : %v\n", ssn.Get("LoginID"))
+		fmt.Printf("[DEBUG] Password  : %v\n", ssn.Get("Password"))
+		fmt.Printf("[DEBUG] Login-Time: %v\n", ssn.Get("Login-Time"))
+		fmt.Printf("[DEBUG] AID       : %v\n", ssn.Get("AID"))
 
 		c.Locals("AID", ssn.Get("AID"))
 
@@ -56,7 +63,9 @@ func Login(c *fiber.Ctx) error {
 		return err
 	}
 
-	ssn.Set("login", time.Now().Unix())
+	ssn.Set("LoginID", req.LoginID)
+	ssn.Set("Password", req.Password)
+	ssn.Set("Login-Time", time.Now().Unix())
 	ssn.Set("AID", 777)
 
 	if err := ssn.Save(); err != nil {

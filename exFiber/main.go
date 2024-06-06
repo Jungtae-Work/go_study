@@ -17,7 +17,7 @@ func main() {
 	auth.Set(app)
 
 	app.Use(func(c *fiber.Ctx) error {
-		fmt.Println("2nd Handler")
+		fmt.Println("[DEBUG] 2nd Handler")
 		return c.Next()
 	})
 
