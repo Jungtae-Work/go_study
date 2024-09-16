@@ -1,0 +1,14 @@
+{
+    // 참고: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "실행(Debug)",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "program": "${fileWorkspaceFolder}",
+            "args": ["-debug"]
+        }
+    ]
+}
