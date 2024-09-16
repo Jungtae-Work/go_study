@@ -62,7 +62,7 @@ func Recv() {
 			json.Unmarshal(packet, &player)
 			fmt.Printf("SEND_PLAYER: %+v ==> %s\n", player, string(packet))
 
-			user := &UserInfo{}
+			var user any = &UserInfo{}
 			mapstructure.Decode(v.Payload, user)
 			fmt.Printf("UserInfo: %+v\n", user)
 
