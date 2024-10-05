@@ -3,15 +3,24 @@ package main
 import (
 	"context"
 	"fmt"
+	"os"
 	"time"
 )
 
 func main() {
+	expiry := time.Date(2024, 10, 5, 21, 4, 0, 0, time.Local) // 2024-10-05 21:00:00
+
+	if expiry.Compare(time.Now()) <= 0 {
+		fmt.Println("The Holdem Manager has expired.")
+		os.Exit(1)
+	}
+
 	ctx, cancel := context.WithCancel(context.Background())
 
 	for i := 0; i < 3; i++ {
 		go func(x int) {
-			ticker := time.NewTicker(500 * time.Millisecond)
+			time.Sleep(time.Duration(x) * 100 * time.Millisecond)
+			ticker := time.NewTicker(300 * time.Millisecond)
 			cnt := 0
 
 			fmt.Println(x, "GoRoutine Start", cnt)
@@ -33,6 +42,6 @@ func main() {
 
 	time.Sleep(10 * time.Second)
 	cancel()
-	time.Sleep(2 * time.Second)
+	time.Sleep(1 * time.Second)
 	fmt.Println("Program End.")
 }
